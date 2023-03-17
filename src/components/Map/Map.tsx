@@ -15,7 +15,7 @@ export type Local = {
 
 export const Map: FC = () => {
   const [position, setPosition] = useState<LatLngExpression>([
-    -20.35712, -41.0594696,
+    -20.332572, -41.129592,
   ]);
 
   const [locals, setLocals] = useState<Local[]>([
