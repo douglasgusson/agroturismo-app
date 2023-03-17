@@ -7,6 +7,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 export type Local = {
   name: string;
+  slug: string;
   description?: string;
   address: string;
   latitude: number;
@@ -21,6 +22,7 @@ export const Map: FC = () => {
   const [locals, setLocals] = useState<Local[]>([
     {
       name: "Vinícola Tonole",
+      slug: "vinicola-tonole",
       description: "Vinícola",
       address:
         "Rodovia Pedro Collor, Km 4, s/n - Zona Rural, Venda Nova do Imigrante - ES, 29375-000",
@@ -29,6 +31,7 @@ export const Map: FC = () => {
     },
     {
       name: "Queijos Monticiello",
+      slug: "queijos-monticiello",
       description: "Loja de queijos",
       address:
         "Sítio Santa Tereza - Tapera, Venda Nova do Imigrante - ES, 29375-000",
@@ -50,10 +53,12 @@ export const Map: FC = () => {
       />
 
       {locals.map(
-        ({ latitude, longitude, name, description, address }, key) => (
-          <Marker position={[latitude, longitude]} key={key}>
+        ({ latitude, longitude, name, description, address, slug }) => (
+          <Marker position={[latitude, longitude]} key={slug}>
             <Popup>
-              <strong className="block">{name}</strong>
+              <Link href={`/local/${slug}`}>
+                <strong className="block">{name}</strong>
+              </Link>
               <p>{description}</p>
               <p>
                 <address>{address}</address>

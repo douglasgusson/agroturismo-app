@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 
 const Filters = dynamic(() => import("@/components/Filters"), {
   ssr: false,
+  loading: () => <p>Carregando...</p>,
 });
 
 export default function Home() {

@@ -1,5 +1,5 @@
+import { Drawer } from "@/components/Drawer";
 import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
 import "../styles/globals.css";
 
 export const metadata = {
@@ -23,8 +23,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Navbar />
-        {children}
+        <Drawer>{children}</Drawer>
         <Footer />
       </body>
     </html>
