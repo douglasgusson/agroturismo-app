@@ -1,4 +1,5 @@
 import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
 import "../styles/globals.css";
 
 export const metadata = {
@@ -13,9 +14,17 @@ export default function RootLayout({
 }) {
   return (
     <html data-theme="emerald" lang="pt-br">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossOrigin=""
+        />
+      </head>
       <body>
+        <Navbar />
         {children}
-
         <Footer />
       </body>
     </html>
