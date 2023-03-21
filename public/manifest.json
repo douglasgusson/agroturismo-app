@@ -16,6 +16,7 @@
   "background_color": "#66cc8a",
   "description": "Encontre o melhor da Capital Nacional do Agroturismo para você e sua família.",
   "display": "fullscreen",
+  "scope": "/",
   "start_url": "/",
   "theme_color": "#66cc8a"
 }
