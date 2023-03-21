@@ -2,7 +2,8 @@
 
 import { Local } from "@/components/Map/Map";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 export default function Page() {
   const [locals, setLocals] = useState<Local[]>([
@@ -28,47 +29,18 @@ export default function Page() {
       name: "Piwo Cervejaria",
       slug: "piwo-cervejaria",
       description: "Cervejaria",
-      address: "Rodovia-ES, 473 km 3 Viçosinha - São João de Viçosa, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.355606446900193, 
-      longitude: -41.18726883310345
-    },
-    {
-      name: "Vinícola Tonole",
-      slug: "vinicola-tonole",
-      description: "Vinícola",
       address:
-        "Rodovia Pedro Collor, Km 4, s/n - Zona Rural, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3629022,
-      longitude: -41.1189408,
-    },
-    {
-      name: "Queijos Monticiello",
-      slug: "queijos-monticiello",
-      description: "Loja de queijos",
-      address:
-        "Sítio Santa Tereza - Tapera, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3261393,
-      longitude: -41.1212182,
-    },
-    {
-      name: "Vinícola Tonole",
-      slug: "vinicola-tonole",
-      description: "Vinícola",
-      address:
-        "Rodovia Pedro Collor, Km 4, s/n - Zona Rural, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3629022,
-      longitude: -41.1189408,
-    },
-    {
-      name: "Queijos Monticiello",
-      slug: "queijos-monticiello",
-      description: "Loja de queijos",
-      address:
-        "Sítio Santa Tereza - Tapera, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3261393,
-      longitude: -41.1212182,
+        "Rodovia-ES, 473 km 3 Viçosinha - São João de Viçosa, Venda Nova do Imigrante - ES, 29375-000",
+      latitude: -20.355606446900193,
+      longitude: -41.18726883310345,
     },
   ]);
+
+  const mapsRouteUrl = useMemo(() => {
+    return locals.reduce((acc, local) => {
+      return `${acc}${local.latitude},${local.longitude}/`;
+    }, `https://www.google.com/maps/dir//`);
+  }, [locals]);
 
   return (
     <section className="mb-8 py-8">
@@ -104,6 +76,32 @@ export default function Page() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-4">
+          <Link
+            href={mapsRouteUrl}
+            target="_blank"
+            role="button"
+            rel="noopener noreferrer"
+            className="btn-primary btn-wide btn gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
+              />
+            </svg>
+            Ver no Google Maps
+          </Link>
+        </div>
       </div>
     </section>
   );
