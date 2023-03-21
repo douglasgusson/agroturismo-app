@@ -25,6 +25,14 @@ export default function Page() {
       longitude: -41.1212182,
     },
     {
+      name: "Piwo Cervejaria",
+      slug: "piwo-cervejaria",
+      description: "Cervejaria",
+      address: "Rodovia-ES, 473 km 3 Viçosinha - São João de Viçosa, Venda Nova do Imigrante - ES, 29375-000",
+      latitude: -20.355606446900193, 
+      longitude: -41.18726883310345
+    },
+    {
       name: "Vinícola Tonole",
       slug: "vinicola-tonole",
       description: "Vinícola",
