@@ -1,53 +1,18 @@
 "use client";
 
+import { Local } from "@/types";
 import { LatLngExpression } from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
-export type Local = {
-  name: string;
-  slug: string;
-  description?: string;
-  address: string;
-  latitude: number;
-  longitude: number;
+export type MapProps = {
+  locals: Local[];
 };
 
-export const Map: FC = () => {
-  const [position, setPosition] = useState<LatLngExpression>([
-    -20.332572, -41.129592,
-  ]);
-
-  const [locals, setLocals] = useState<Local[]>([
-    {
-      name: "Vinícola Tonole",
-      slug: "vinicola-tonole",
-      description: "Vinícola",
-      address:
-        "Rodovia Pedro Collor, Km 4, s/n - Zona Rural, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3629022,
-      longitude: -41.1189408,
-    },
-    {
-      name: "Queijos Monticiello",
-      slug: "queijos-monticiello",
-      description: "Loja de queijos",
-      address:
-        "Sítio Santa Tereza - Tapera, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3261393,
-      longitude: -41.1212182,
-    },
-    {
-      name: "Piwo Cervejaria",
-      slug: "piwo-cervejaria",
-      description: "Cervejaria",
-      address: "Rodovia-ES, 473 km 3 Viçosinha - São João de Viçosa, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.355606446900193, 
-      longitude: -41.18726883310345
-    }
-  ]);
+export const Map: FC<MapProps> = ({ locals }) => {
+  const [position] = useState<LatLngExpression>([-20.332572, -41.129592]);
 
   return (
     <MapContainer
@@ -62,7 +27,15 @@ export const Map: FC = () => {
       />
 
       {locals.map(
-        ({ latitude, longitude, name, description, address, slug }) => (
+        ({
+          latitude,
+          longitude,
+          name,
+          description,
+          slug,
+          main_category,
+          images,
+        }) => (
           <Marker position={[latitude, longitude]} key={slug}>
             <Popup>
               <div className="flex flex-col items-center justify-center text-center">
@@ -71,7 +44,11 @@ export const Map: FC = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle w-24">
                         <Image
-                          src={`https://api.lorem.space/image/house?w=256&h=256&hash=${Math.random()}`}
+                          src={
+                            images.length > 0
+                              ? images[0].image.url
+                              : `https://api.lorem.space/image/house?w=256&h=256&hash=${Math.random()}`
+                          }
                           alt="Avatar"
                           width={256}
                           height={256}
@@ -79,10 +56,10 @@ export const Map: FC = () => {
                       </div>
                     </div>
                     <strong className="block">{name}</strong>
-                    <small>{description}</small>
+                    <small>{main_category.name}</small>
                   </div>
                 </Link>
-                <p>{address}</p>
+                <p>{description}</p>
                 <Link
                   href={`https://www.google.com/maps/dir//${latitude},${longitude}/`}
                   target="_blank"

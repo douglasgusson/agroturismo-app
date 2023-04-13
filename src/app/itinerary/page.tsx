@@ -1,40 +1,14 @@
 "use client";
 
-import { Local } from "@/components/Map/Map";
+import { fetcher } from "@/lib";
+import { Local } from "@/types";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import useSWR from "swr";
 
 export default function Page() {
-  const [locals, setLocals] = useState<Local[]>([
-    {
-      name: "Vinícola Tonole",
-      slug: "vinicola-tonole",
-      description: "Vinícola",
-      address:
-        "Rodovia Pedro Collor, Km 4, s/n - Zona Rural, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3629022,
-      longitude: -41.1189408,
-    },
-    {
-      name: "Queijos Monticiello",
-      slug: "queijos-monticiello",
-      description: "Loja de queijos",
-      address:
-        "Sítio Santa Tereza - Tapera, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.3261393,
-      longitude: -41.1212182,
-    },
-    {
-      name: "Piwo Cervejaria",
-      slug: "piwo-cervejaria",
-      description: "Cervejaria",
-      address:
-        "Rodovia-ES, 473 km 3 Viçosinha - São João de Viçosa, Venda Nova do Imigrante - ES, 29375-000",
-      latitude: -20.355606446900193,
-      longitude: -41.18726883310345,
-    },
-  ]);
+  const { data: locals = [] } = useSWR<Local[]>(`/locals/`, fetcher);
 
   const mapsRouteUrl = useMemo(() => {
     return locals.reduce((acc, local) => {
@@ -56,7 +30,7 @@ export default function Page() {
                     </p>
                     <div className="ml-2 flex flex-shrink-0">
                       <p className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                        {local.description}
+                        {local.main_category.name}
                       </p>
                     </div>
                   </div>
@@ -67,7 +41,7 @@ export default function Page() {
                           className="mr-2 h-5 w-5 flex-shrink-0 text-gray-400"
                           aria-hidden="true"
                         />
-                        <span>{local.address}</span>
+                        <span>{local.description}</span>
                       </p>
                     </div>
                   </div>

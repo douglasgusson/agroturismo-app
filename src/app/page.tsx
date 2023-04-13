@@ -3,6 +3,8 @@ import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
+import { API_URL } from "@/lib";
+import { Local } from "@/types";
 import dynamic from "next/dynamic";
 
 const Filters = dynamic(() => import("@/components/Filters"), {
@@ -10,7 +12,15 @@ const Filters = dynamic(() => import("@/components/Filters"), {
   loading: () => <p>Carregando...</p>,
 });
 
-export default function Home() {
+const getLocals = async (): Promise<Local[]> => {
+  const response = await fetch(`${API_URL}/locals/`);
+  const data = await response.json();
+  return data;
+};
+
+export default async function Home() {
+  const locals = await getLocals();
+
   return (
     <main className={inter.className}>
       <div className="hero bg-base-100">
@@ -43,71 +53,30 @@ export default function Home() {
 
       <div className="container mx-auto">
         <div className="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-3 lg:grid-cols-5">
-          <div className="card bg-base-100 shadow-lg">
-            <figure>
-              <Image
-                src="https://api.lorem.space/image/shoes?w=400&h=400"
-                alt="Shoes"
-                width="400"
-                height="400"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Shoes!
-                <div className="badge-secondary badge">NEW</div>
-              </h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div className="card-actions justify-end">
-                <div className="badge-outline badge">Fashion</div>
-                <div className="badge-outline badge">Products</div>
+          {locals.map((local) => (
+            <div key={local.id} className="card bg-base-100 shadow-lg">
+              <figure>
+                <Image
+                  src={
+                    local.images.length > 0
+                      ? local.images[0].image.url
+                      : `https://api.lorem.space/image/house?w=400&h=400&hash=${Math.random()}`
+                  }
+                  alt={local.images[0].image.alt_text || local.name}
+                  width={local.images[0].image.width || 400}
+                  height={local.images[0].image.height || 400}
+                />
+              </figure>
+              <div className="card-body">
+                <h2 className="card-title">{local.name}</h2>
+                <p>{local.main_category.name}</p>
+                <div className="card-actions justify-end">
+                  <div className="badge-outline badge">Fashion</div>
+                  <div className="badge-outline badge">Products</div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-lg">
-            <figure>
-              <Image
-                src="https://api.lorem.space/image/shoes?w=400&h=400"
-                alt="Shoes"
-                width="400"
-                height="400"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Shoes!
-                <div className="badge-secondary badge">NEW</div>
-              </h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div className="card-actions justify-end">
-                <div className="badge-outline badge">Fashion</div>
-                <div className="badge-outline badge">Products</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 shadow-lg">
-            <figure>
-              <Image
-                src="https://api.lorem.space/image/shoes?w=400&h=400"
-                alt="Shoes"
-                width="400"
-                height="400"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Shoes!
-                <div className="badge-secondary badge">NEW</div>
-              </h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div className="card-actions justify-end">
-                <div className="badge-outline badge">Fashion</div>
-                <div className="badge-outline badge">Products</div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </main>
