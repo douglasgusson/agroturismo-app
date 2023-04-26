@@ -39,13 +39,13 @@ export const Filters = () => {
     <Disclosure
       as="section"
       aria-labelledby="filter-heading"
-      className="relative z-10 grid items-center border-t border-b border-gray-200"
+      className="relative z-10 grid items-center border-b border-t border-gray-200"
     >
       <h2 id="filter-heading" className="sr-only">
         Filtros
       </h2>
       <div className="relative col-start-1 row-start-1 py-4">
-        <div className="mx-auto flex container space-x-6 divide-x divide-gray-200 px-4 text-sm sm:px-6 lg:px-8">
+        <div className="container mx-auto flex max-w-7xl space-x-6 divide-x divide-gray-200 px-4 text-sm sm:px-6 lg:px-8">
           <div>
             <Disclosure.Button className="group flex items-center font-medium text-gray-700">
               <svg
@@ -73,7 +73,7 @@ export const Filters = () => {
         </div>
       </div>
       <Disclosure.Panel className="border-t border-gray-200 py-10">
-        <div className="mx-auto grid container grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8 mb-12">
+        <div className="container mx-auto mb-12 grid grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8">
           <div className="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
             <fieldset>
               <legend className="block font-medium">Price</legend>
@@ -93,7 +93,7 @@ export const Filters = () => {
                     />
                     <label
                       htmlFor={`price-${optionIdx}`}
-                      className="ml-3 min-w-0 flex-1 text-gray-600 cursor-pointer"
+                      className="ml-3 min-w-0 flex-1 cursor-pointer text-gray-600"
                     >
                       {option.label}
                     </label>
@@ -119,7 +119,7 @@ export const Filters = () => {
                     />
                     <label
                       htmlFor={`color-${optionIdx}`}
-                      className="ml-3 min-w-0 flex-1 text-gray-600 cursor-pointer"
+                      className="ml-3 min-w-0 flex-1 cursor-pointer text-gray-600"
                     >
                       {option.label}
                     </label>
@@ -147,7 +147,7 @@ export const Filters = () => {
                     />
                     <label
                       htmlFor={`size-${optionIdx}`}
-                      className="ml-3 min-w-0 flex-1 text-gray-600 cursor-pointer"
+                      className="ml-3 min-w-0 flex-1 cursor-pointer text-gray-600"
                     >
                       {option.label}
                     </label>
@@ -173,7 +173,7 @@ export const Filters = () => {
                     />
                     <label
                       htmlFor={`category-${optionIdx}`}
-                      className="ml-3 min-w-0 flex-1 text-gray-600 cursor-pointer"
+                      className="ml-3 min-w-0 flex-1 cursor-pointer text-gray-600"
                     >
                       {option.label}
                     </label>
