@@ -2,7 +2,7 @@
 
 import { fetcher } from "@/lib";
 import { Local } from "@/types";
-import { MapPinIcon } from "@heroicons/react/24/outline";
+import { MapIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useMemo } from "react";
 import useSWR from "swr";
@@ -41,7 +41,7 @@ export default function Page() {
                           className="mr-2 h-5 w-5 flex-shrink-0 text-gray-400"
                           aria-hidden="true"
                         />
-                        <span>{local.description}</span>
+                        <span>{local.address}</span>
                       </p>
                     </div>
                   </div>
@@ -59,20 +59,7 @@ export default function Page() {
             rel="noopener noreferrer"
             className="btn-primary btn-wide btn gap-2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
-              />
-            </svg>
+            <MapIcon className="mr-2 h-5 w-5" aria-hidden="true" />
             Ver no Google Maps
           </Link>
         </div>
