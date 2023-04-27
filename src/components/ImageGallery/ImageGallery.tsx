@@ -30,10 +30,10 @@ export const ImageGallery: FC<ImageGalleryProps> = ({ images }) => {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center rounded-md border border-transparent bg-emerald-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 focus:ring-offset-2"
+        className="inline-flex w-full items-center justify-center border border-transparent bg-rose-500 px-4 py-2 font-semibold leading-tight text-white opacity-90 shadow-sm hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-offset-2 sm:w-auto sm:rounded-md"
       >
         <PhotoIcon className="mr-2 h-5 w-5" aria-hidden="true" />
-        Mostrar todas as fotos
+        <span>Mostrar todas as fotos</span>
       </button>
 
       <Lightbox

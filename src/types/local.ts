@@ -23,6 +23,9 @@ export type ImageGallery = {
 export type Local = {
   name: string;
   slug: string;
+  address: string;
+  phone: string | null;
+  website: string | null;
   latitude: number;
   longitude: number;
   description: string;

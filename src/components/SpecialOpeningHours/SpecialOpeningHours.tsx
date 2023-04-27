@@ -26,7 +26,7 @@ export const SpecialOpeningHoursComponent = ({
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
+    <div className="mx-auto">
       <div className="mt-10">
         <h2 className="text-3xl font-extrabold text-gray-900">
           Horário de funcionamento especial
@@ -50,7 +50,7 @@ export const SpecialOpeningHoursComponent = ({
                 </dt>
                 <dd className="mt-1 flex flex-col text-sm text-gray-900">
                   {openingHour.is_closed ? (
-                    <span className="text-red-500">Fechado</span>
+                    <span className="font-semibold text-red-500">Fechado</span>
                   ) : (
                     <span>
                       {openingHour.start_time}
@@ -58,7 +58,7 @@ export const SpecialOpeningHoursComponent = ({
                       {openingHour.end_time}
                     </span>
                   )}
-                  <span className="text-red-500">
+                  <span className="font-semibold text-red-500">
                     {!!openingHour.start_pause_time &&
                       !!openingHour.end_pause_time &&
                       `Fechado entre ${openingHour.start_pause_time} e ${openingHour.end_pause_time}`}

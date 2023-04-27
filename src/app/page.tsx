@@ -12,7 +12,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 const Filters = dynamic(() => import("@/components/Filters"), {
   ssr: false,
-  loading: () => <p>Carregando...</p>,
+  loading: () => (
+    <div className="container mx-auto flex h-14 max-w-7xl items-center justify-center">
+      <span>Carregando...</span>
+    </div>
+  ),
 });
 
 const getLocals = async (): Promise<Local[]> => {

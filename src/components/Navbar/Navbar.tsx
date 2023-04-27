@@ -3,7 +3,10 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
+  HomeIcon,
   MagnifyingGlassIcon,
+  MapIcon,
+  QueueListIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
@@ -13,31 +16,52 @@ import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 
 const navigation = [
-  { name: "Página inicial", href: "/" },
-  { name: "Mapa", href: "/explorer" },
-  { name: "Roteiro", href: "/itinerary" },
+  {
+    name: "Página inicial",
+    href: "/",
+    icon: <HomeIcon className="mr-2 h-5 w-5" />,
+  },
+  {
+    name: "Mapa",
+    href: "/explorer",
+    icon: <MapIcon className="mr-2 h-5 w-5" />,
+  },
+  {
+    name: "Roteiro",
+    href: "/itinerary",
+    icon: <QueueListIcon className="mr-2 h-5 w-5" />,
+  },
 ];
 
 export const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <div>
-      <Disclosure as="header" className="bg-white shadow">
+    <header className="bg-white">
+      <Disclosure as="div" className="shadow">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
               <div className="relative flex h-16 justify-between">
                 <div className="relative z-10 flex px-2 lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
-                    <Link href="/" title="Página inicial">
-                      <Image
-                        className="block h-8 w-auto"
-                        src="/img/nature.svg"
-                        alt="Desenho de natureza"
-                        width={32}
-                        height={32}
-                      />
+                    <Link
+                      href="/"
+                      title="Página inicial"
+                      className="flex items-center"
+                    >
+                      <>
+                        <Image
+                          className="block h-12 w-auto"
+                          src="/img/nature.svg"
+                          alt="Desenho de natureza"
+                          width={48}
+                          height={48}
+                        />
+                        <span className="ml-2 hidden text-2xl font-bold text-emerald-700 md:block">
+                          Agroturismo
+                        </span>
+                      </>
                     </Link>
                   </div>
                 </div>
@@ -81,9 +105,9 @@ export const Navbar = () => {
                       <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
 
-                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-500">
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500">
                           <span className="font-medium leading-none text-white">
-                            U
+                            D
                           </span>
                         </span>
                       </Menu.Button>
@@ -130,7 +154,7 @@ export const Navbar = () => {
                 </div>
               </div>
               <nav
-                className="hidden lg:flex lg:space-x-8 lg:py-2"
+                className="top-0 z-10 hidden lg:flex lg:space-x-8 lg:py-2"
                 aria-label="Global"
               >
                 {navigation.map((item) => (
@@ -145,6 +169,7 @@ export const Navbar = () => {
                     )}
                     aria-current={item.href === pathname ? "page" : undefined}
                   >
+                    {item.icon}
                     {item.name}
                   </Link>
                 ))}
@@ -166,10 +191,11 @@ export const Navbar = () => {
                       item.href === pathname
                         ? "bg-emerald-100 text-gray-900"
                         : "text-gray-900 hover:bg-gray-50 hover:text-gray-900",
-                      "block rounded-md px-3 py-2 text-base font-medium"
+                      "flex rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={item.href === pathname ? "page" : undefined}
                   >
+                    {item.icon}
                     {item.name}
                   </Disclosure.Button>
                 ))}
@@ -177,38 +203,39 @@ export const Navbar = () => {
               <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="flex items-center px-4">
                   <div className="flex-shrink-0">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-500">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500">
                       <span className="font-medium leading-none text-white">
-                        U
+                        D
                       </span>
                     </span>
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium text-gray-800">
-                      user.name
-                    </div>
-                    <div className="text-sm font-medium text-gray-500">
-                      user.email
+                      @douglas
                     </div>
                   </div>
                 </div>
                 <div className="mt-3 space-y-1 px-2">
-                  {/* {userNavigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                    >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))} */}
+                  <Disclosure.Button
+                    as={Link}
+                    href="/perfil"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                  >
+                    Perfil
+                  </Disclosure.Button>
+                  <Disclosure.Button
+                    as={Link}
+                    href="/logout"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                  >
+                    Sair
+                  </Disclosure.Button>
                 </div>
               </div>
             </Disclosure.Panel>
           </>
         )}
       </Disclosure>
-    </div>
+    </header>
   );
 };
