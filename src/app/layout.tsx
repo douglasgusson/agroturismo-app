@@ -1,8 +1,11 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import type { Metadata } from "next";
+import { Nunito } from "next/font/google";
 import "../styles/globals.css";
 import { AuthProvider } from "./contexts/AuthContext";
+
+const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Agroturismo App",
@@ -25,7 +28,7 @@ export default function RootLayout({
           crossOrigin=""
         />
       </head>
-      <body>
+      <body className={nunito.className}>
         <AuthProvider>
           <Navbar />
           {children}
