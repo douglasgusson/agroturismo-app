@@ -1,14 +1,11 @@
-import { Inter } from "next/font/google";
 import Image from "next/image";
 
+import { LocalCard } from "@/components/LocalCard";
 import { API_URL } from "@/lib";
 import { Local } from "@/types";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 
 export const revalidate = 600;
-
-const inter = Inter({ subsets: ["latin"] });
 
 const Filters = dynamic(() => import("@/components/Filters"), {
   ssr: false,
@@ -29,7 +26,7 @@ export default async function Home() {
   const locals = await getLocals();
 
   return (
-    <main className={inter.className}>
+    <main>
       <div className="bg-gray-100 py-6">
         <div className="container mx-auto flex max-w-7xl flex-col items-center justify-center px-8 sm:flex-row md:px-16 lg:flex-row-reverse lg:justify-between">
           <div className="w-full rounded-lg lg:max-w-md">
@@ -65,32 +62,7 @@ export default async function Home() {
       <div className="container mx-auto mb-8 max-w-7xl px-8 md:px-16">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
           {locals.map((local) => (
-            <Link
-              key={local.id}
-              href={`/local/${local.slug}`}
-              className="group"
-            >
-              <div className="aspect-1 w-full overflow-hidden rounded-md">
-                <Image
-                  src={
-                    local.images.length > 0
-                      ? local.images[0].image.url
-                      : `https://api.lorem.space/image/house?w=400&h=400&hash=${Math.random()}`
-                  }
-                  alt={local.images[0]?.image.alt_text || local.name}
-                  width={local.images[0]?.image.width || 400}
-                  height={local.images[0]?.image.height || 400}
-                  className="h-full w-full object-cover object-center group-hover:opacity-75"
-                />
-              </div>
-              <div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900">
-                <h2>{local.name}</h2>
-                <p>{/* {product.description} */}</p>
-              </div>
-              <p className="mt-1 italic text-gray-500">
-                {local.main_category.name}
-              </p>
-            </Link>
+            <LocalCard key={local.id} local={local} />
           ))}
         </div>
       </div>
