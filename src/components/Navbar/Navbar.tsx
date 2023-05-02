@@ -12,8 +12,8 @@ import {
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Fragment } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import React, { Fragment } from "react";
 
 const navigation = [
   {
@@ -35,6 +35,10 @@ const navigation = [
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [searchText, setSearchText] = React.useState(
+    searchParams.get("q") ?? ""
+  );
 
   return (
     <header className="bg-white">
@@ -43,7 +47,7 @@ export const Navbar = () => {
           <>
             <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
               <div className="relative flex h-16 justify-between">
-                <div className="relative z-10 flex px-2 lg:px-0">
+                <div className="relative z-50 flex px-2 lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
                     <Link
                       href="/"
@@ -66,9 +70,9 @@ export const Navbar = () => {
                   </div>
                 </div>
                 <div className="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">
-                  <div className="w-full sm:max-w-xs">
+                  <form action="/search" className="w-full sm:max-w-xs">
                     <label htmlFor="search" className="sr-only">
-                      Search
+                      Busca
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -79,13 +83,16 @@ export const Navbar = () => {
                       </div>
                       <input
                         id="search"
-                        name="search"
+                        name="q"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        required
                         className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-emerald-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-sm"
                         placeholder="Buscar por locais, categorias, etc..."
                         type="search"
                       />
                     </div>
-                  </div>
+                  </form>
                 </div>
                 <div className="relative z-10 flex items-center lg:hidden">
                   {/* Mobile menu button */}
@@ -98,7 +105,7 @@ export const Navbar = () => {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
+                <div className="hidden lg:relative lg:z-[500] lg:ml-4 lg:flex lg:items-center">
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
