@@ -2,7 +2,7 @@
 
 import { Local } from "@/types";
 import { MapIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { LatLngExpression } from "leaflet";
+import L, { LatLngExpression } from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
@@ -10,6 +10,19 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 export type MapProps = {
   locals: Local[];
+};
+
+const getIcon = (category: string) => {
+  const icon = L.icon({
+    iconUrl: `/img/markers/${category}.png`,
+    iconSize: [32, 32],
+    iconAnchor: [16, 0],
+    shadowUrl: "/img/markers/pin.png",
+    shadowSize: [50, 50],
+    shadowAnchor: [25, 5],
+  });
+
+  return icon;
 };
 
 export const Map: FC<MapProps> = ({ locals }) => {
@@ -37,7 +50,11 @@ export const Map: FC<MapProps> = ({ locals }) => {
           main_category,
           images,
         }) => (
-          <Marker position={[latitude, longitude]} key={slug}>
+          <Marker
+            position={[latitude, longitude]}
+            key={slug}
+            icon={getIcon(main_category.slug)}
+          >
             <Popup>
               <div className="flex flex-col items-center justify-center text-center">
                 <Link href={`/local/${slug}`}>
