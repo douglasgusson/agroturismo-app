@@ -1,9 +1,9 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { Providers } from "@/contexts/providers";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "../styles/globals.css";
-import { AuthProvider } from "./contexts/AuthContext";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -29,11 +29,11 @@ export default function RootLayout({
         />
       </head>
       <body className={nunito.className}>
-        <AuthProvider>
+        <Providers>
           <Navbar />
           {children}
           <Footer />
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );
