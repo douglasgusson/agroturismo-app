@@ -21,6 +21,7 @@ export type ItineraryContextType = {
   addLocal: (local: Local) => void;
   removeLocal: (local: Local) => void;
   optimizeItinerary: () => void;
+  isInItinerary: (local: Local) => boolean;
 };
 
 const defaultContext: ItineraryContextType = {
@@ -31,6 +32,7 @@ const defaultContext: ItineraryContextType = {
   addLocal: () => {},
   removeLocal: () => {},
   optimizeItinerary: () => {},
+  isInItinerary: () => false,
 };
 
 export const ItineraryContext =
@@ -93,6 +95,11 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
     setLocals(data);
   }, [locals]);
 
+  const isInItinerary = useCallback(
+    (local: Local) => locals.find((l) => l.id === local.id) !== undefined,
+    [locals]
+  );
+
   return (
     <ItineraryContext.Provider
       value={{
@@ -103,6 +110,7 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
         addLocal,
         removeLocal,
         optimizeItinerary,
+        isInItinerary,
       }}
     >
       {children}
