@@ -11,7 +11,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["api.lorem.space", "tailwindui.com", "res.cloudinary.com"],
+    domains: ["api.lorem.space", "res.cloudinary.com"],
   },
 };
 

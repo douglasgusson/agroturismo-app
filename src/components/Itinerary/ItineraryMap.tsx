@@ -1,11 +1,17 @@
-import L, { LatLngExpression } from "leaflet";
+"use client";
+
+import L from "leaflet";
+import dynamic from "next/dynamic";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { ItineraryRouting } from "./ItineraryRouting";
 
 export type ItineraryRoutingProps = {
   waypoints: L.Routing.Waypoint[];
-  centerCoords?: LatLngExpression;
+  centerCoords?: L.LatLngExpression;
 };
+
+const ItineraryRouting = dynamic(() => import("./ItineraryRouting"), {
+  ssr: false,
+});
 
 export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
   waypoints,
@@ -15,7 +21,7 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
     <MapContainer
       center={centerCoords}
       zoom={12}
-      style={{ height: "40vh", width: "100%" }}
+      style={{ height: "50vh", width: "100%" }}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -25,3 +31,5 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
     </MapContainer>
   );
 };
+
+export default ItineraryMap;

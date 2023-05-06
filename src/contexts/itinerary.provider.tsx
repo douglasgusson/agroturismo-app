@@ -1,6 +1,8 @@
-import { LocalAddedNotification } from "@/components/LocalAddedNotification/LocalAddedNotification";
+"use client";
+
+import { LocalAddedNotification } from "@/components/LocalAddedNotification";
 import { Local } from "@/types";
-import L, { LatLngExpression } from "leaflet";
+import L from "leaflet";
 import React, {
   PropsWithChildren,
   createContext,
@@ -13,7 +15,7 @@ import { toast } from "react-hot-toast";
 export type ItineraryContextType = {
   locals: Local[];
   count: number;
-  centerCoords?: LatLngExpression;
+  centerCoords?: L.LatLngExpression;
   waypoints: L.Routing.Waypoint[];
   addLocal: (local: Local) => void;
   removeLocal: (local: Local) => void;
@@ -81,3 +83,5 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
     </ItineraryContext.Provider>
   );
 };
+
+export default ItineraryProvider;

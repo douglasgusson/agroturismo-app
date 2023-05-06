@@ -34,7 +34,6 @@ export const Map: FC<MapProps> = ({ locals }) => {
     <MapContainer
       center={centerCoords}
       zoom={12}
-      scrollWheelZoom={false}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer

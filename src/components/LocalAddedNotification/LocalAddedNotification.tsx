@@ -52,3 +52,5 @@ export const LocalAddedNotification: React.FC<LocalAddedNotificationProps> = ({
     </div>
   );
 };
+
+export default LocalAddedNotification;

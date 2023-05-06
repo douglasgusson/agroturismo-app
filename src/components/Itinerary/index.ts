@@ -1,1 +1,1 @@
-export { default as Itinerary } from "./Itinerary";
+export { default } from "./Itinerary";

@@ -2,10 +2,14 @@
 
 import { useItinerary } from "@/hooks";
 import { MapIcon } from "@heroicons/react/24/outline";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useMemo } from "react";
 import { ItineraryList } from "./ItineraryList";
-import { ItineraryMap } from "./ItineraryMap";
+
+const ItineraryMap = dynamic(() => import("./ItineraryMap"), {
+  ssr: false,
+});
 
 export const Itinerary: React.FC = () => {
   const { locals, count, centerCoords, waypoints } = useItinerary();
