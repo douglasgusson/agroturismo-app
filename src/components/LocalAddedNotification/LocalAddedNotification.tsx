@@ -27,7 +27,7 @@ export const LocalAddedNotification: React.FC<LocalAddedNotificationProps> = ({
                   ? local.images[0].image.url
                   : `/img/placeholder.svg`
               }
-              alt="Avatar"
+              alt={local.name}
               width={48}
               height={48}
               className="h-10 w-10 rounded-lg"

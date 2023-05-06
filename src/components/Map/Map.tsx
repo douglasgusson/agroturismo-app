@@ -2,7 +2,6 @@
 
 import { useItinerary } from "@/hooks";
 import { Local } from "@/types";
-import { MapIcon } from "@heroicons/react/24/outline";
 import L from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,38 +49,27 @@ export const Map: FC<MapProps> = ({ locals }) => {
           <Popup>
             <div className="flex flex-col items-center justify-center text-center">
               <Link href={`/local/${local.slug}`}>
-                <div className="flex flex-col items-center justify-center">
-                  <div className="avatar">
-                    <div className="mask mask-squircle w-24">
-                      <Image
-                        src={
-                          local.images.length > 0
-                            ? local.images[0].image.url
-                            : `/img/placeholder.svg`
-                        }
-                        alt="Avatar"
-                        width={256}
-                        height={256}
-                        className="rounded-lg"
-                      />
-                    </div>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="h-24 w-32">
+                    <Image
+                      src={
+                        local.images.length > 0
+                          ? local.images[0].image.url
+                          : `/img/placeholder.svg`
+                      }
+                      alt={local.name}
+                      width={256}
+                      height={256}
+                      className="h-full w-full rounded-lg object-cover object-center"
+                    />
                   </div>
-                  <strong className="block">{local.name}</strong>
-                  <small>{local.main_category.name}</small>
+                  <div className="">
+                    <strong className="block">{local.name}</strong>
+                    <small>{local.main_category.name}</small>
+                  </div>
                 </div>
               </Link>
-              <p>{local.description}</p>
-              <Link
-                href={`https://www.google.com/maps/dir//${local.latitude},${local.longitude}/`}
-                target="_blank"
-                rel="noopener noreferrer"
-                role="button"
-                title="Ver rota no Google Maps"
-                className="inline-flex items-center rounded-full border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
-              >
-                <MapIcon className="mr-2 h-5 w-5" aria-hidden="true" />
-                Rota
-              </Link>
+              <p>{local.address}</p>
               <AddToIninerary local={local} />
             </div>
           </Popup>
