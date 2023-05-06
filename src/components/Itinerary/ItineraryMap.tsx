@@ -26,17 +26,20 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
 
   const formattedDistance = useMemo(() => {
     if (route?.summary === undefined) return "";
-    return (route.summary.totalDistance / 1000).toLocaleString("pt-BR", {
-      maximumFractionDigits: 2,
-    });
+    const distanceInKm = (route.summary.totalDistance / 1000).toLocaleString(
+      "pt-BR",
+      { maximumFractionDigits: 2 }
+    );
+    return `${distanceInKm} km`;
   }, [route]);
 
   const formattedTime = useMemo(() => {
     if (route?.summary === undefined) return "";
-    return Math.round((route.summary.totalTime % 3600) / 60).toLocaleString(
-      "pt-BR",
-      { maximumFractionDigits: 0 }
-    );
+    const hours = Math.floor(route.summary.totalTime / 3600);
+    const minutes = Math.floor((route.summary.totalTime % 3600) / 60);
+    const hoursString = hours > 0 ? `${hours}h` : "";
+    const minutesString = minutes > 0 ? `${minutes}min` : "";
+    return `${hoursString} ${minutesString}`;
   }, [route]);
 
   return (
@@ -59,11 +62,11 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
             <div className="">
               <p className="text-neutral-200">
                 <span className="text-sm">Distância total estimada: </span>
-                <span className="font-bold">{formattedDistance} km</span>
+                <span className="font-bold">{formattedDistance}</span>
               </p>
               <p className="text-neutral-200">
                 <span className="text-sm">Tempo total estimado: </span>
-                <span className="font-bold">{formattedTime} min</span>
+                <span className="font-bold">{formattedTime}</span>
               </p>
             </div>
           )}
