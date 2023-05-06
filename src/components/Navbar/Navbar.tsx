@@ -1,5 +1,6 @@
 "use client";
 
+import { useItinerary } from "@/hooks";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -26,14 +27,10 @@ const navigation = [
     href: "/explorer",
     icon: <MapIcon className="mr-2 h-5 w-5" />,
   },
-  {
-    name: "Roteiro",
-    href: "/itinerary",
-    icon: <QueueListIcon className="mr-2 h-5 w-5" />,
-  },
 ];
 
 export const Navbar = () => {
+  const { count } = useItinerary();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [searchText, setSearchText] = React.useState(
@@ -180,6 +177,23 @@ export const Navbar = () => {
                     {item.name}
                   </Link>
                 ))}
+
+                <Link
+                  href="/itinerary"
+                  className={clsx(
+                    "/itinerary" === pathname
+                      ? "bg-emerald-100 text-gray-900"
+                      : "text-gray-900 hover:bg-gray-50 hover:text-gray-900",
+                    "relative inline-flex items-center rounded-md px-3 py-2 text-sm font-medium"
+                  )}
+                  aria-current={"/itinerary" === pathname ? "page" : undefined}
+                >
+                  <QueueListIcon className="mr-2 h-5 w-5" />
+                  Roteiro
+                  <span className="absolute -right-2 -top-1 inline-flex items-center justify-center rounded-full bg-rose-500 px-2 py-1 text-xs font-bold leading-none text-white">
+                    {count}
+                  </span>
+                </Link>
               </nav>
             </div>
 
@@ -206,6 +220,23 @@ export const Navbar = () => {
                     {item.name}
                   </Disclosure.Button>
                 ))}
+                <Disclosure.Button
+                  as={Link}
+                  href="/itinerary"
+                  className={clsx(
+                    "/itinerary" === pathname
+                      ? "bg-emerald-100 text-gray-900"
+                      : "text-gray-900 hover:bg-gray-50 hover:text-gray-900",
+                    "flex space-x-2 rounded-md px-3 py-2 text-base font-medium"
+                  )}
+                  aria-current={"/itinerary" === pathname ? "page" : undefined}
+                >
+                  <QueueListIcon className="mr-2 h-5 w-5" />
+                  Roteiro
+                  <span className="inline-flex items-center justify-center rounded-full bg-rose-500 px-2 py-1 text-xs font-bold leading-none text-white">
+                    {count}
+                  </span>
+                </Disclosure.Button>
               </div>
               <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="flex items-center px-4">
