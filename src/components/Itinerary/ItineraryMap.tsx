@@ -58,11 +58,11 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
           {route && route.summary && (
             <div className="">
               <p className="text-neutral-200">
-                <span className="text-sm">Distância total: </span>
+                <span className="text-sm">Distância total estimada: </span>
                 <span className="font-bold">{formattedDistance} km</span>
               </p>
               <p className="text-neutral-200">
-                <span className="text-sm">Tempo total: </span>
+                <span className="text-sm">Tempo total estimado: </span>
                 <span className="font-bold">{formattedTime} min</span>
               </p>
             </div>
