@@ -42,7 +42,11 @@ export const Itinerary: React.FC = () => {
         )}
       </div>
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <ItineraryMap waypoints={waypoints} centerCoords={centerCoords} />
+        <ItineraryMap
+          waypoints={waypoints}
+          centerCoords={centerCoords}
+          googleMapsUrl={mapsRouteUrl}
+        />
       </div>
     </section>
   );

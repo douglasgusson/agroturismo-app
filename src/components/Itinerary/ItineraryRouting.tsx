@@ -8,10 +8,12 @@ import { useMap } from "react-leaflet";
 
 export type ItineraryRoutingProps = {
   waypoints: L.Routing.Waypoint[];
+  onRouteFound?: (e: L.Routing.IRoute) => void;
 };
 
 export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
   waypoints,
+  onRouteFound,
 }) => {
   const map = useMap();
 
@@ -21,7 +23,7 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
     const routingControlOptions: L.Routing.RoutingControlOptions = {
       waypoints,
       lineOptions: {
-        styles: [{ color: "#ff6584", opacity: 0.9, weight: 5 }],
+        styles: [{ color: "#ff6584", opacity: 0.9, weight: 6 }],
         missingRouteTolerance: 10,
         extendToWaypoints: false,
         addWaypoints: false,
@@ -47,6 +49,15 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
     };
 
     const routingControl = L.Routing.control(routingControlOptions).addTo(map);
+
+    routingControl.hide();
+
+    routingControl.on("routesfound", (e: L.Routing.RoutingResultEvent) => {
+      const routes = e.routes;
+      const primaryRoute = routes[0];
+      if (primaryRoute === undefined) return;
+      onRouteFound && onRouteFound(primaryRoute);
+    });
 
     return () => {
       map.removeControl(routingControl);
