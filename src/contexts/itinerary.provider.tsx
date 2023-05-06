@@ -1,6 +1,7 @@
 "use client";
 
 import { LocalAddedNotification } from "@/components/LocalAddedNotification";
+import { API_URL } from "@/lib";
 import { Local } from "@/types";
 import L from "leaflet";
 import React, {
@@ -19,6 +20,7 @@ export type ItineraryContextType = {
   waypoints: L.Routing.Waypoint[];
   addLocal: (local: Local) => void;
   removeLocal: (local: Local) => void;
+  optimizeItinerary: () => void;
 };
 
 const defaultContext: ItineraryContextType = {
@@ -28,6 +30,7 @@ const defaultContext: ItineraryContextType = {
   waypoints: [],
   addLocal: () => {},
   removeLocal: () => {},
+  optimizeItinerary: () => {},
 };
 
 export const ItineraryContext =
@@ -53,6 +56,14 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
 
   const removeLocal = (local: Local) => {
     setLocals((prev) => prev.filter((l) => l.id !== local.id));
+    toast.success(
+      (t) => (
+        <span>
+          <b>{local.name}</b> removido do seu roteiro.
+        </span>
+      ),
+      { icon: "🗑️" }
+    );
   };
 
   const count = useMemo(() => locals.length, [locals]);
@@ -68,6 +79,20 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
 
   const waypoints = useMemo(() => getWaypoints(), [getWaypoints]);
 
+  const optimizeItinerary = useCallback(async () => {
+    if (locals.length === 0) return;
+
+    const params = new URLSearchParams();
+    locals.forEach(({ id }) => params.append("ids", id.toString()));
+
+    const res = await fetch(`${API_URL}/algorithms/tabu-search?${params}`, {
+      method: "GET",
+    });
+
+    const data = (await res.json()) as Local[];
+    setLocals(data);
+  }, [locals]);
+
   return (
     <ItineraryContext.Provider
       value={{
@@ -77,6 +102,7 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
         centerCoords: defaultContext.centerCoords,
         addLocal,
         removeLocal,
+        optimizeItinerary,
       }}
     >
       {children}

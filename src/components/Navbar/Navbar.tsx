@@ -109,7 +109,7 @@ export const Navbar = () => {
                       <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
 
-                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500">
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
                           <span className="font-medium leading-none text-white">
                             D
                           </span>
@@ -241,7 +241,7 @@ export const Navbar = () => {
               <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="flex items-center px-4">
                   <div className="flex-shrink-0">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
                       <span className="font-medium leading-none text-white">
                         D
                       </span>
