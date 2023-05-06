@@ -30,6 +30,20 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
       fitSelectedRoutes: false,
       showAlternatives: false,
       routeWhileDragging: false,
+      plan: L.Routing.plan(waypoints, {
+        createMarker: (index, waypoint) => {
+          return L.marker(waypoint.latLng, {
+            draggable: false,
+            icon: L.divIcon({
+              className:
+                "bg-rose-600 text-white rounded-full p-3 flex items-center justify-center font-extrabold relative z-10",
+              html: `<span class="absolute rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">${
+                index + 1
+              }</span>`,
+            }),
+          });
+        },
+      }),
     };
 
     const routingControl = L.Routing.control(routingControlOptions).addTo(map);

@@ -21,7 +21,7 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
     <MapContainer
       center={centerCoords}
       zoom={12}
-      style={{ height: "50vh", width: "100%" }}
+      style={{ height: "50vh", width: "100%", borderRadius: "1rem" }}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
