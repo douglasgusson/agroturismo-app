@@ -19,7 +19,7 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({
             <Link href={`/local/${local.slug}`} className="block">
               <div className="px-4 py-4 sm:px-6">
                 <div className="flex flex-wrap items-center justify-between">
-                  <p className="truncate text-lg font-semibold">{local.name}</p>
+                  <p className="text-lg font-semibold">{local.name}</p>
                   <div className="ml-2 flex flex-shrink-0">
                     <p className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                       {local.main_category.name}
