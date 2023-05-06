@@ -45,7 +45,7 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
         center={centerCoords}
         zoom={12}
         scrollWheelZoom={false}
-        style={{ height: "50vh", width: "100%" }}
+        style={{ height: "60vh", width: "100%" }}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
