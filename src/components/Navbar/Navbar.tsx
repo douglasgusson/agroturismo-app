@@ -11,6 +11,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -30,6 +31,7 @@ const navigation = [
 ];
 
 export const Navbar = () => {
+  const { data: session } = useSession();
   const { count } = useItinerary();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -106,15 +108,25 @@ export const Navbar = () => {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
-                        <span className="sr-only">Open user menu</span>
-
-                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
-                          <span className="font-medium leading-none text-white">
-                            D
+                      {session ? (
+                        <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                          <span className="sr-only">Open user menu</span>
+                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
+                            <span className="font-medium leading-none text-white uppercase">
+                              {session.user.username.charAt(0)}
+                            </span>
                           </span>
-                        </span>
-                      </Menu.Button>
+                        </Menu.Button>
+                      ) : (
+                        <>
+                          <Link href="/account/register" className="mr-2 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200">
+                            Cadastro
+                          </Link>
+                          <button onClick={() => signIn()} className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                            Entrar
+                          </button>
+                        </>
+                      )}
                     </div>
                     <Transition
                       as={Fragment}
@@ -129,27 +141,27 @@ export const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-                              href="/perfil"
+                              href="/account/my-itineraries"
                               className={clsx(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Perfil
+                              Meus roteiros
                             </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <Link
-                              href="/logout"
+                            <button
+                              onClick={() => signOut()}
                               className={clsx(
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                "w-full px-4 py-2 text-sm text-gray-700 text-left"
                               )}
                             >
                               Sair
-                            </Link>
+                            </button>
                           )}
                         </Menu.Item>
                       </Menu.Items>
@@ -238,38 +250,58 @@ export const Navbar = () => {
                   </span>
                 </Disclosure.Button>
               </div>
-              <div className="border-t border-gray-200 pb-3 pt-4">
-                <div className="flex items-center px-4">
-                  <div className="flex-shrink-0">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
-                      <span className="font-medium leading-none text-white">
-                        D
+              {session ? (
+                <div className="border-t border-gray-200 pb-3 pt-4">
+                  <div className="flex items-center px-4">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
+                        <span className="font-medium leading-none uppercase text-white">
+                          {session.user.username.charAt(0)}
+                        </span>
                       </span>
-                    </span>
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800">
-                      @douglas
+                    </div>
+                    <div className="ml-3">
+                      <div className="text-base font-medium text-gray-800">
+                        @{session.user.username}
+                      </div>
                     </div>
                   </div>
+                  <div className="mt-3 space-y-1 px-2">
+                    <Disclosure.Button
+                      as={Link}
+                      href="/account/my-itineraries"
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                    >
+                      Meus roteiros
+                    </Disclosure.Button>
+                    <Disclosure.Button
+                      onClick={() => signOut()}
+                      className="rounded-md w-full text-left px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                    >
+                      Sair
+                    </Disclosure.Button>
+                  </div>
                 </div>
-                <div className="mt-3 space-y-1 px-2">
-                  <Disclosure.Button
-                    as={Link}
-                    href="/perfil"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                  >
-                    Perfil
-                  </Disclosure.Button>
-                  <Disclosure.Button
-                    as={Link}
-                    href="/logout"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                  >
-                    Sair
-                  </Disclosure.Button>
-                </div>
-              </div>
+              ) : (
+                <div className="border-t border-gray-200 pb-3 pt-4">
+                    <div className="mt-3 space-y-1 px-2">
+                      <Disclosure.Button
+                        as={Link}
+                        href="/login"
+                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                      >
+                        Entrar
+                      </Disclosure.Button>
+                      <Disclosure.Button
+                        as={Link}
+                        href="/account/register"
+                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                      >
+                        Cadastrar
+                      </Disclosure.Button>
+                    </div>
+                  </div>
+              )}
             </Disclosure.Panel>
           </>
         )}

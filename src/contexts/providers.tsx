@@ -1,7 +1,8 @@
 import { ToasterProvider } from "@/components/ToasterProvider";
 import dynamic from "next/dynamic";
 import { PropsWithChildren } from "react";
-import { AuthProvider } from "./auth.provider";
+import AuthContext from './auth.provider';
+
 
 const ItineraryProvider = dynamic(() => import("./itinerary.provider"), {
   ssr: false,
@@ -10,10 +11,10 @@ const ItineraryProvider = dynamic(() => import("./itinerary.provider"), {
 export function Providers({ children }: PropsWithChildren) {
   return (
     <>
-      <AuthProvider>
+      <AuthContext>
         <ToasterProvider />
         <ItineraryProvider>{children}</ItineraryProvider>
-      </AuthProvider>
+      </AuthContext>
     </>
   );
 }

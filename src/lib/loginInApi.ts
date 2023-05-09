@@ -18,13 +18,24 @@ export const loginInApi = async (credentials: Credentials) => {
       }),
     });
 
-    const data = (await res.json()) as {
+    const authData = (await res.json()) as {
       access_token: string;
       refresh_token: string;
       token_type: string;
     };
 
-    return data;
+    const profile = await fetch(`${API_URL}/profile`, {
+      headers: {
+        Authorization: `Bearer ${authData.access_token}`,
+      },
+    });
+
+    const profileData = await profile.json();
+
+    return {
+      ...authData,
+      ...profileData,
+    };
   } catch (error) {
     console.error(error);
     throw new Error("Error when trying to login", { cause: error });
