@@ -62,7 +62,7 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
     return () => {
       map.removeControl(routingControl);
     };
-  }, [map, waypoints]);
+  }, [map, onRouteFound, waypoints]);
 
   return null;
 };

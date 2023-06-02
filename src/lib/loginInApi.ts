@@ -1,5 +1,5 @@
+import { API_URL } from "@/lib";
 import { Credentials } from "@/types";
-import { API_URL } from "./fetcher";
 
 export const loginInApi = async (credentials: Credentials) => {
   try {
