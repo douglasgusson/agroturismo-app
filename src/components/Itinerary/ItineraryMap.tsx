@@ -56,7 +56,7 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
         />
         <ItineraryRouting waypoints={waypoints} onRouteFound={setRoute} />
       </MapContainer>
-      <div className="absolute bottom-0 left-0 right-0 z-[1001] bg-gray-800/90 p-4">
+      <div className="absolute bottom-0 left-0 right-0 z-[1000] bg-gray-800/90 p-4">
         <div className="flex flex-wrap justify-between gap-2">
           {route && route.summary && (
             <div className="">
