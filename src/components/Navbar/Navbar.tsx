@@ -11,7 +11,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -112,19 +112,25 @@ export const Navbar = () => {
                         <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                           <span className="sr-only">Open user menu</span>
                           <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
-                            <span className="font-medium leading-none text-white uppercase">
+                            <span className="font-medium uppercase leading-none text-white">
                               {session.user.username.charAt(0)}
                             </span>
                           </span>
                         </Menu.Button>
                       ) : (
                         <>
-                          <Link href="/account/register" className="mr-2 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200">
+                          <Link
+                            href="/account/register"
+                            className="mr-2 inline-flex items-center rounded-md border border-transparent bg-emerald-100 px-4 py-2 text-base font-medium text-emerald-700 hover:bg-emerald-200"
+                          >
                             Cadastro
                           </Link>
-                          <button onClick={() => signIn()} className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700">
+                          <Link
+                            href="/login"
+                            className="inline-flex items-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-base font-medium text-white hover:bg-emerald-700"
+                          >
                             Entrar
-                          </button>
+                          </Link>
                         </>
                       )}
                     </div>
@@ -157,7 +163,7 @@ export const Navbar = () => {
                               onClick={() => signOut()}
                               className={clsx(
                                 active ? "bg-gray-100" : "",
-                                "w-full px-4 py-2 text-sm text-gray-700 text-left"
+                                "w-full px-4 py-2 text-left text-sm text-gray-700"
                               )}
                             >
                               Sair
@@ -255,7 +261,7 @@ export const Navbar = () => {
                   <div className="flex items-center px-4">
                     <div className="flex-shrink-0">
                       <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-500">
-                        <span className="font-medium leading-none uppercase text-white">
+                        <span className="font-medium uppercase leading-none text-white">
                           {session.user.username.charAt(0)}
                         </span>
                       </span>
@@ -276,7 +282,7 @@ export const Navbar = () => {
                     </Disclosure.Button>
                     <Disclosure.Button
                       onClick={() => signOut()}
-                      className="rounded-md w-full text-left px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                      className="w-full rounded-md px-3 py-2 text-left text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                     >
                       Sair
                     </Disclosure.Button>
@@ -284,22 +290,23 @@ export const Navbar = () => {
                 </div>
               ) : (
                 <div className="border-t border-gray-200 pb-3 pt-4">
-                    <div className="mt-3 space-y-1 px-2">
-                      <Disclosure.Button
-                        onClick={() => signIn()}
-                        className="w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                      >
-                        Entrar
-                      </Disclosure.Button>
-                      <Disclosure.Button
-                        as={Link}
-                        href="/account/register"
-                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                      >
-                        Cadastrar
-                      </Disclosure.Button>
-                    </div>
+                  <div className="mt-3 space-y-1 px-2">
+                    <Disclosure.Button
+                      as={Link}
+                      href="/login"
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                    >
+                      Entrar
+                    </Disclosure.Button>
+                    <Disclosure.Button
+                      as={Link}
+                      href="/account/register"
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                    >
+                      Cadastrar
+                    </Disclosure.Button>
                   </div>
+                </div>
               )}
             </Disclosure.Panel>
           </>
