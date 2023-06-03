@@ -1,7 +1,7 @@
 "use client";
 
 import { LocalAddedNotification } from "@/components/LocalAddedNotification";
-import { API_URL } from "@/lib";
+import { API_URL, removeLocalFromItinerary, saveItinerary } from "@/lib";
 import { Local } from "@/types";
 import L from "leaflet";
 import React, {
@@ -38,13 +38,28 @@ const defaultContext: ItineraryContextType = {
 export const ItineraryContext =
   createContext<ItineraryContextType>(defaultContext);
 
-export const ItineraryProvider: React.FC<PropsWithChildren> = ({
+export type ItineraryProviderProps = PropsWithChildren<{
+  initialLocals?: Local[];
+}>;
+
+export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
+  initialLocals = [],
   children,
 }) => {
-  const [locals, setLocals] = useState<Local[]>([]);
+  const [locals, setLocals] = useState<Local[]>(initialLocals);
+
+  const isInItinerary = useCallback(
+    (local: Local) => locals.find((l) => l.id === local.id) !== undefined,
+    [locals]
+  );
+
+  const updateItinerary = useCallback((locals: Local[], isReorder = false) => {
+    const localsIds = locals.map(({ id }) => id);
+    saveItinerary(localsIds, isReorder);
+  }, []);
 
   const addLocal = (local: Local) => {
-    if (locals.find((l) => l.id === local.id)) {
+    if (isInItinerary(local)) {
       toast.error((t) => (
         <span>
           <b>{local.name}</b> já está no seu roteiro.
@@ -52,12 +67,15 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
       ));
       return;
     }
+
+    updateItinerary([...locals, local]);
     setLocals((prev) => [...prev, local]);
     toast.custom((t) => <LocalAddedNotification toast={t} local={local} />);
   };
 
   const removeLocal = (local: Local) => {
     setLocals((prev) => prev.filter((l) => l.id !== local.id));
+    removeLocalFromItinerary(local.id);
     toast.success(
       (t) => (
         <span>
@@ -93,12 +111,8 @@ export const ItineraryProvider: React.FC<PropsWithChildren> = ({
 
     const data = (await res.json()) as Local[];
     setLocals(data);
-  }, [locals]);
-
-  const isInItinerary = useCallback(
-    (local: Local) => locals.find((l) => l.id === local.id) !== undefined,
-    [locals]
-  );
+    updateItinerary(data, true);
+  }, [locals, updateItinerary]);
 
   return (
     <ItineraryContext.Provider
