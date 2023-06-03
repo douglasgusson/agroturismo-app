@@ -3,25 +3,41 @@
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useMap } from "react-leaflet";
 
 export type ItineraryRoutingProps = {
   waypoints: L.Routing.Waypoint[];
+  currentLocation?: L.LatLng;
   onRouteFound?: (e: L.Routing.IRoute) => void;
 };
 
 export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
   waypoints,
+  currentLocation,
   onRouteFound,
 }) => {
   const map = useMap();
 
+  const currentLocationWaypoint = useMemo(
+    () =>
+      currentLocation && L.Routing.waypoint(currentLocation, "Sua localização"),
+    [currentLocation]
+  );
+
+  const waypointsWithCurrentLocation = useMemo(
+    () => [
+      ...(currentLocationWaypoint ? [currentLocationWaypoint] : []),
+      ...waypoints,
+    ],
+    [currentLocationWaypoint, waypoints]
+  );
+
   useEffect(() => {
-    if (waypoints.length === 0) return;
+    if (waypointsWithCurrentLocation.length === 0) return;
 
     const routingControlOptions: L.Routing.RoutingControlOptions = {
-      waypoints,
+      waypoints: waypointsWithCurrentLocation,
       lineOptions: {
         styles: [{ color: "#ff6584", opacity: 0.9, weight: 6 }],
         missingRouteTolerance: 10,
@@ -32,7 +48,7 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
       fitSelectedRoutes: false,
       showAlternatives: false,
       routeWhileDragging: false,
-      plan: L.Routing.plan(waypoints, {
+      plan: L.Routing.plan(waypointsWithCurrentLocation, {
         createMarker: (index, waypoint) => {
           return L.marker(waypoint.latLng, {
             draggable: false,
@@ -62,7 +78,7 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
     return () => {
       map.removeControl(routingControl);
     };
-  }, [map, onRouteFound, waypoints]);
+  }, [currentLocation, map, onRouteFound, waypointsWithCurrentLocation]);
 
   return null;
 };

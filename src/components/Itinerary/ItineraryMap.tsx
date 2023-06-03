@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
+import { CurrentLocationMarker } from "../CurrentLocationMarker";
 
 export type ItineraryRoutingProps = {
   waypoints: L.Routing.Waypoint[];
@@ -23,6 +24,7 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
   googleMapsUrl,
 }) => {
   const [route, setRoute] = useState<L.Routing.IRoute | undefined>(undefined);
+  const [currentLocation, setCurrentLocation] = useState<L.LatLng>();
 
   const formattedDistance = useMemo(() => {
     if (route?.summary === undefined) return "";
@@ -54,7 +56,12 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <ItineraryRouting waypoints={waypoints} onRouteFound={setRoute} />
+        <CurrentLocationMarker onLocationFound={setCurrentLocation} flyTo />
+        <ItineraryRouting
+          waypoints={waypoints}
+          currentLocation={currentLocation}
+          onRouteFound={setRoute}
+        />
       </MapContainer>
       <div className="absolute bottom-0 left-0 right-0 z-[1000] bg-gray-800/90 p-4">
         <div className="flex flex-wrap justify-between gap-2">

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { AddToIninerary } from "../AddToIninerary/AddToIninerary";
+import { CurrentLocationMarker } from "../CurrentLocationMarker";
 
 export type MapProps = {
   locals: Local[];
@@ -36,7 +37,7 @@ export const Map: FC<MapProps> = ({ locals }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-
+      <CurrentLocationMarker />
       {locals.map((local) => (
         <Marker
           position={[local.latitude, local.longitude]}
