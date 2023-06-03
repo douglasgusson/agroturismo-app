@@ -14,6 +14,12 @@ export function CurrentLocationMarker({
   const map = useMap();
   const [position, setPosition] = useState<L.LatLng | null>(null);
 
+  const icon = L.icon({
+    iconUrl: "/img/user-pin.png",
+    iconSize: [28, 28],
+    iconAnchor: [14, 0],
+  });
+
   useEffect(() => {
     map.locate().on("locationfound", function (e) {
       const radius = e.accuracy;
@@ -22,7 +28,7 @@ export function CurrentLocationMarker({
 
       setPosition(e.latlng);
       if (onLocationFound) onLocationFound(e.latlng);
-      
+
       if (flyTo) {
         map.flyTo(e.latlng, map.getZoom());
       }
@@ -30,7 +36,7 @@ export function CurrentLocationMarker({
   }, [flyTo, map, onLocationFound]);
 
   return position === null ? null : (
-    <Marker position={position}>
+    <Marker position={position} icon={icon}>
       <Popup>Você está aqui!</Popup>
     </Marker>
   );
