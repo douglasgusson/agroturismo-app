@@ -13,14 +13,11 @@ export type MapProps = {
   locals: Local[];
 };
 
-const getIcon = (category: string) => {
+const getIcon = () => {
   const icon = L.icon({
-    iconUrl: `/img/markers/${category}.png`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 0],
-    shadowUrl: "/img/markers/pin.png",
-    shadowSize: [50, 50],
-    shadowAnchor: [25, 5],
+    iconUrl: "/img/pin.png",
+    iconSize: [28, 28],
+    iconAnchor: [14, 0],
   });
 
   return icon;
@@ -44,7 +41,7 @@ export const Map: FC<MapProps> = ({ locals }) => {
         <Marker
           position={[local.latitude, local.longitude]}
           key={local.slug}
-          icon={getIcon(local.main_category.slug)}
+          icon={getIcon()}
         >
           <Popup>
             <div className="flex flex-col items-center justify-center text-center">
