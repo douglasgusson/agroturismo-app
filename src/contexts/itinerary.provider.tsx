@@ -18,10 +18,12 @@ export type ItineraryContextType = {
   count: number;
   centerCoords?: L.LatLngExpression;
   waypoints: L.Routing.Waypoint[];
+  currentLocation: L.LatLng | null;
   addLocal: (local: Local) => void;
   removeLocal: (local: Local) => void;
   optimizeItinerary: () => void;
   isInItinerary: (local: Local) => boolean;
+  setCurrentLocation: (currentLocation: L.LatLng) => void;
 };
 
 const defaultContext: ItineraryContextType = {
@@ -29,10 +31,12 @@ const defaultContext: ItineraryContextType = {
   count: 0,
   centerCoords: [-20.332572, -41.129592],
   waypoints: [],
+  currentLocation: null,
   addLocal: () => {},
   removeLocal: () => {},
   optimizeItinerary: () => {},
   isInItinerary: () => false,
+  setCurrentLocation: () => {},
 };
 
 export const ItineraryContext =
@@ -47,6 +51,7 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
   children,
 }) => {
   const [locals, setLocals] = useState<Local[]>(initialLocals);
+  const [currentLocation, setCurrentLocation] = useState<L.LatLng | null>(null);
 
   const isInItinerary = useCallback(
     (local: Local) => locals.find((l) => l.id === local.id) !== undefined,
@@ -105,14 +110,23 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
     const params = new URLSearchParams();
     locals.forEach(({ id }) => params.append("ids", id.toString()));
 
-    const res = await fetch(`${API_URL}/algorithms/tabu-search?${params}`, {
+    if (currentLocation) {
+      params.append("current_latitude", currentLocation.lat.toString());
+      params.append("current_longitude", currentLocation.lng.toString());
+    } else {
+      const [firstLocal] = locals;
+      params.append("current_latitude", firstLocal.latitude.toString());
+      params.append("current_longitude", firstLocal.longitude.toString());
+    }
+
+    const res = await fetch(`${API_URL}/algorithms/tsp?${params}`, {
       method: "GET",
     });
 
     const data = (await res.json()) as Local[];
     setLocals(data);
     updateItinerary(data, true);
-  }, [locals, updateItinerary]);
+  }, [currentLocation, locals, updateItinerary]);
 
   return (
     <ItineraryContext.Provider
@@ -120,11 +134,13 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
         locals,
         count,
         waypoints,
+        currentLocation,
         centerCoords: defaultContext.centerCoords,
         addLocal,
         removeLocal,
         optimizeItinerary,
         isInItinerary,
+        setCurrentLocation,
       }}
     >
       {children}

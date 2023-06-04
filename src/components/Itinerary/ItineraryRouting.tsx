@@ -8,7 +8,7 @@ import { useMap } from "react-leaflet";
 
 export type ItineraryRoutingProps = {
   waypoints: L.Routing.Waypoint[];
-  currentLocation?: L.LatLng;
+  currentLocation?: L.LatLng | null;
   onRouteFound?: (e: L.Routing.IRoute) => void;
 };
 
@@ -29,6 +29,8 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
     () => [
       ...(currentLocationWaypoint ? [currentLocationWaypoint] : []),
       ...waypoints,
+      // Add current location again to make the route return to the starting point
+      ...(currentLocationWaypoint ? [currentLocationWaypoint] : []),
     ],
     [currentLocationWaypoint, waypoints]
   );
@@ -50,6 +52,10 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
       routeWhileDragging: false,
       plan: L.Routing.plan(waypointsWithCurrentLocation, {
         createMarker: (index, waypoint) => {
+          if (index === waypointsWithCurrentLocation.length - 1) {
+            return false;
+          }
+
           return L.marker(waypoint.latLng, {
             draggable: false,
             icon: L.divIcon({

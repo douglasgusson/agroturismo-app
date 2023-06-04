@@ -1,5 +1,6 @@
 "use client";
 
+import { useItinerary } from "@/hooks";
 import { MapIcon } from "@heroicons/react/24/outline";
 import L from "leaflet";
 import dynamic from "next/dynamic";
@@ -23,8 +24,8 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
   centerCoords,
   googleMapsUrl,
 }) => {
+  const { currentLocation, setCurrentLocation } = useItinerary();
   const [route, setRoute] = useState<L.Routing.IRoute | undefined>(undefined);
-  const [currentLocation, setCurrentLocation] = useState<L.LatLng>();
 
   const formattedDistance = useMemo(() => {
     if (route?.summary === undefined) return "";

@@ -12,7 +12,7 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({
   onRemove,
 }) => {
   return (
-    <ul role="list" className="px-4">
+    <ul role="list" className="px-4 max-h-[60vh] overflow-y-auto">
       {locals.map((local) => (
         <li key={local.name} className="text-left">
           <div className="flex items-center justify-between">
