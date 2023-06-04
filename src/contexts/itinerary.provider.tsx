@@ -21,7 +21,7 @@ export type ItineraryContextType = {
   currentLocation: L.LatLng | null;
   addLocal: (local: Local) => void;
   removeLocal: (local: Local) => void;
-  optimizeItinerary: () => void;
+  optimizeItinerary: () => Promise<void>;
   isInItinerary: (local: Local) => boolean;
   setCurrentLocation: (currentLocation: L.LatLng) => void;
 };
@@ -34,7 +34,7 @@ const defaultContext: ItineraryContextType = {
   currentLocation: null,
   addLocal: () => {},
   removeLocal: () => {},
-  optimizeItinerary: () => {},
+  optimizeItinerary: async () => {},
   isInItinerary: () => false,
   setCurrentLocation: () => {},
 };
