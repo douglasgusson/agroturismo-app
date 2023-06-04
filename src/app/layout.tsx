@@ -16,12 +16,16 @@ export const metadata: Metadata = {
 };
 
 async function getLocalsData() {
-  const cookieStore = cookies();
-  const itineraryCookie = cookieStore.get("itinerary");
-  const localIds = JSON.parse(itineraryCookie?.value || "[]") as number[];
-  if (localIds.length === 0) return [];
-  const locals = await getLocals(localIds);
-  return locals;
+  try {
+    const cookieStore = cookies();
+    const itineraryCookie = cookieStore.get("itinerary");
+    const localIds = JSON.parse(itineraryCookie?.value || "[]") as number[];
+    if (localIds.length === 0) return [];
+    const locals = await getLocals(localIds);
+    return locals;
+  } catch (error) {
+    return [];
+  }
 }
 
 export default async function RootLayout({

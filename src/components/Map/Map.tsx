@@ -9,6 +9,7 @@ import { FC } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { AddToIninerary } from "../AddToIninerary/AddToIninerary";
 import { CurrentLocationMarker } from "../CurrentLocationMarker";
+import { FlyToButton } from "../FlyToButton";
 
 export type MapProps = {
   locals: Local[];
@@ -25,7 +26,7 @@ const getIcon = () => {
 };
 
 export const Map: FC<MapProps> = ({ locals }) => {
-  const { centerCoords } = useItinerary();
+  const { centerCoords, currentLocation } = useItinerary();
 
   return (
     <MapContainer
@@ -38,6 +39,8 @@ export const Map: FC<MapProps> = ({ locals }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <CurrentLocationMarker />
+      {currentLocation && <FlyToButton coords={currentLocation} />}
+
       {locals.map((local) => (
         <Marker
           position={[local.latitude, local.longitude]}

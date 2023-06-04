@@ -34,6 +34,14 @@ export const Itinerary: React.FC = () => {
           <>
             <div className="flex-1">
               <ItineraryList locals={locals} onRemove={removeLocal} />
+              <div className="flex justify-center py-6">
+                <button
+                  onClick={optimizeItinerary}
+                  className="mx-auto inline-flex items-center rounded-full border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
+                >
+                  <span>Buscar melhor rota</span>
+                </button>
+              </div>
             </div>
             <div className="flex-1">
               <ItineraryMap
@@ -41,14 +49,6 @@ export const Itinerary: React.FC = () => {
                 centerCoords={centerCoords}
                 googleMapsUrl={mapsRouteUrl}
               />
-              <div className="flex justify-center py-2">
-                <button
-                  onClick={() => optimizeItinerary()}
-                  className="mx-auto inline-flex items-center rounded-full border border-transparent bg-slate-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
-                >
-                  <span>Reordenar roteiro</span>
-                </button>
-              </div>
             </div>
           </>
         ) : (

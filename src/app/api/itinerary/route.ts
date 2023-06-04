@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const itineraryLocals = searchParams.getAll("locals").map((local) => Number(local));
   const isReorder = searchParams.get("reorder") === "true";
-  
+
   // get itinerary cookie
   const cookieStore = cookies();
   const itineraryCookie = cookieStore.get("itinerary");
