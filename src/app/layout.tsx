@@ -12,7 +12,7 @@ const nunito = Nunito({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Agroturismo App",
   description: "Encontre o melhor da Capital Nacional do Agroturismo",
-  manifest: "https://agroturismo.vercel.app/manifest.json",
+  manifest: "https://agroturismo.capixaba.dev/manifest.json",
 };
 
 async function getLocalsData() {
