@@ -40,22 +40,23 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({
   };
 
   return (
-    <ol role="list" className="max-h-[60vh] overflow-y-auto px-4">
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided) => (
-            <li
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="text-left"
-            >
-              {locals.map((local, index) => (
-                <Draggable
-                  key={local.id}
-                  index={index}
-                  draggableId={local.id.toString()}
-                >
-                  {(provided) => (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable">
+        {(provided) => (
+          <ol
+            role="list"
+            className="max-h-[60vh] overflow-y-auto px-4"
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {locals.map((local, index) => (
+              <Draggable
+                key={local.id}
+                index={index}
+                draggableId={local.id.toString()}
+              >
+                {(provided) => (
+                  <li className="text-left">
                     <div
                       className="flex items-center justify-between"
                       ref={provided.innerRef}
@@ -110,14 +111,14 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({
                         </svg>
                       </button>
                     </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </li>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </ol>
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ol>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
