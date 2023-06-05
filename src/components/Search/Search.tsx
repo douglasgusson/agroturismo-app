@@ -13,7 +13,13 @@ export const Search = ({ disabled }: { disabled?: boolean }) => {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const searchText = e.currentTarget.search.value;
-      startTransition(() => push(`/search?q=${searchText}`));
+
+      if (!searchText) return;
+
+      const params = new URLSearchParams();
+      params.set("q", searchText);
+
+      startTransition(() => push(`/search?${params.toString()}`));
     },
     [push, startTransition]
   );
