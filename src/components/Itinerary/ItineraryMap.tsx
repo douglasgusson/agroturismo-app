@@ -46,12 +46,12 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
   }, [route]);
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-xl shadow-xl">
+    <div className="shadowmax--xl relative h-full w-full overflow-hidden rounded-xl">
       <MapContainer
         center={centerCoords}
         zoom={12}
         scrollWheelZoom={false}
-        style={{ height: "60vh", width: "100%" }}
+        style={{ height: "100%", width: "100%", minHeight: "600px" }}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
