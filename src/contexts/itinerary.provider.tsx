@@ -19,11 +19,13 @@ export type ItineraryContextType = {
   centerCoords?: L.LatLngExpression;
   waypoints: L.Routing.Waypoint[];
   currentLocation: L.LatLng | null;
+  isProcessing: boolean;
   addLocal: (local: Local) => void;
   removeLocal: (local: Local) => void;
   optimizeItinerary: () => Promise<void>;
   isInItinerary: (local: Local) => boolean;
   setCurrentLocation: (currentLocation: L.LatLng) => void;
+  reorderLocals: (locals: Local[]) => void;
 };
 
 const defaultContext: ItineraryContextType = {
@@ -32,11 +34,13 @@ const defaultContext: ItineraryContextType = {
   centerCoords: [-20.332572, -41.129592],
   waypoints: [],
   currentLocation: null,
+  isProcessing: false,
   addLocal: () => {},
   removeLocal: () => {},
   optimizeItinerary: async () => {},
   isInItinerary: () => false,
   setCurrentLocation: () => {},
+  reorderLocals: () => {},
 };
 
 export const ItineraryContext =
@@ -50,6 +54,7 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
   initialLocals = [],
   children,
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
   const [locals, setLocals] = useState<Local[]>(initialLocals);
   const [currentLocation, setCurrentLocation] = useState<L.LatLng | null>(null);
 
@@ -91,6 +96,11 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
     );
   };
 
+  const reorderLocals = (locals: Local[]) => {
+    setLocals(locals);
+    updateItinerary(locals, true);
+  };
+
   const count = useMemo(() => locals.length, [locals]);
 
   const getWaypoints = useCallback(
@@ -106,7 +116,8 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
 
   const optimizeItinerary = useCallback(async () => {
     if (locals.length === 0) return;
-
+    
+    setIsProcessing(true);
     const params = new URLSearchParams();
     locals.forEach(({ id }) => params.append("ids", id.toString()));
 
@@ -126,6 +137,7 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
     const data = (await res.json()) as Local[];
     setLocals(data);
     updateItinerary(data, true);
+    setIsProcessing(false);
   }, [currentLocation, locals, updateItinerary]);
 
   return (
@@ -136,11 +148,13 @@ export const ItineraryProvider: React.FC<ItineraryProviderProps> = ({
         waypoints,
         currentLocation,
         centerCoords: defaultContext.centerCoords,
+        isProcessing,
         addLocal,
         removeLocal,
         optimizeItinerary,
         isInItinerary,
         setCurrentLocation,
+        reorderLocals,
       }}
     >
       {children}

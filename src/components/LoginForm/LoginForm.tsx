@@ -72,7 +72,7 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className='w-full'>Entrar</Button>
       </form>
     </Form>
   );
