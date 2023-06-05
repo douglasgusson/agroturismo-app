@@ -5,17 +5,17 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   HomeIcon,
-  MagnifyingGlassIcon,
   MapIcon,
   QueueListIcon,
-  XMarkIcon,
+  XMarkIcon
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import React, { Fragment } from "react";
+import { usePathname } from "next/navigation";
+import { Fragment } from "react";
+import { Search } from '../Search';
 
 const navigation = [
   {
@@ -34,10 +34,6 @@ export const Navbar = () => {
   const { data: session } = useSession();
   const { count } = useItinerary();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [searchText, setSearchText] = React.useState(
-    searchParams.get("q") ?? ""
-  );
 
   return (
     <header className="bg-white">
@@ -69,29 +65,7 @@ export const Navbar = () => {
                   </div>
                 </div>
                 <div className="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">
-                  <form action="/search" className="w-full sm:max-w-xs">
-                    <label htmlFor="search" className="sr-only">
-                      Busca
-                    </label>
-                    <div className="relative">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <MagnifyingGlassIcon
-                          className="h-5 w-5 text-gray-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <input
-                        id="search"
-                        name="q"
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                        required
-                        className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-emerald-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-sm"
-                        placeholder="Buscar por locais, categorias, etc..."
-                        type="search"
-                      />
-                    </div>
-                  </form>
+                  <Search />
                 </div>
                 <div className="relative z-10 flex items-center lg:hidden">
                   {/* Mobile menu button */}
