@@ -51,9 +51,9 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({
             <ol
               role="list"
               className={cn(
-                "flex max-h-[60vh] flex-col gap-4 overflow-y-auto rounded-md p-4 transition-colors duration-200",
+                "flex max-h-[60vh] flex-col gap-4 overflow-y-auto rounded-md border-2 border-dashed border-transparent p-4 transition-colors duration-200",
                 snapshot.isDraggingOver
-                  ? "border-2 border-dashed border-sky-200 bg-sky-100"
+                  ? "border-sky-200 bg-sky-100"
                   : "bg-slate-50"
               )}
               {...provided.droppableProps}
