@@ -40,6 +40,10 @@ export const ItineraryRouting: React.FC<ItineraryRoutingProps> = ({
 
     const routingControlOptions: L.Routing.RoutingControlOptions = {
       waypoints: waypointsWithCurrentLocation,
+      router: L.Routing.mapbox(process.env.NEXT_PUBLIC_MAPBOX_TOKEN!, {
+        profile: "mapbox/driving",
+        language: "pt-BR",
+      }),
       lineOptions: {
         styles: [{ color: "#ff6584", opacity: 0.9, weight: 6 }],
         missingRouteTolerance: 10,
