@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   // set cookie with itinerary (max age 1 month)
   response.headers.set(
     "Set-Cookie",
-    `itinerary=${JSON.stringify(itinerary)}; path=/; Max-Age=2592000`
+    `itinerary=${JSON.stringify(itinerary)}; path=/; Max-Age=2592000; SameSite=Strict; Secure; HttpOnly`
   );
 
   return response;
