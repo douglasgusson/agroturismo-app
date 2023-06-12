@@ -14,7 +14,7 @@ export const FlyToButton = ({ coords }: FlyToButtonProps) => {
 
   return (
     <button
-      className="absolute right-4 top-4 z-[1001] rounded-full bg-white p-3 shadow-md"
+      className="absolute right-4 bottom-32 z-[1001] rounded-full bg-white p-3 shadow-lg"
       onClick={handleClick}
     >
       <LocateFixed className="h-6 w-6 text-gray-600" />

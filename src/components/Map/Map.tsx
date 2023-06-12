@@ -35,8 +35,8 @@ export const Map: FC<MapProps> = ({ locals }) => {
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={process.env.NEXT_PUBLIC_TILE_LAYER_URL!}
+        attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
       />
       <CurrentLocationMarker />
       {currentLocation && <FlyToButton coords={currentLocation} />}

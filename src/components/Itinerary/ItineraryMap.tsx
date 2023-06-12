@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { CurrentLocationMarker } from "../CurrentLocationMarker";
+import { FlyToButton } from '../FlyToButton';
 
 export type ItineraryRoutingProps = {
   waypoints: L.Routing.Waypoint[];
@@ -54,9 +55,10 @@ export const ItineraryMap: React.FC<ItineraryRoutingProps> = ({
         style={{ height: "100%", width: "100%", minHeight: "600px" }}
       >
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url={process.env.NEXT_PUBLIC_TILE_LAYER_URL!}
+          attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
         />
+        {currentLocation && <FlyToButton coords={currentLocation} />}
         <CurrentLocationMarker onLocationFound={setCurrentLocation} flyTo />
         <ItineraryRouting
           waypoints={waypoints}
