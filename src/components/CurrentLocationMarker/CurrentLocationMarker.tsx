@@ -22,15 +22,16 @@ export function CurrentLocationMarker({
 
   useEffect(() => {
     map.locate().on("locationfound", function (e) {
+      const currentLocation = e.latlng;
       const radius = e.accuracy;
-      const circle = L.circle(e.latlng, radius);
+      const circle = L.circle(currentLocation, radius);
       circle.addTo(map);
 
-      setPosition(e.latlng);
-      if (onLocationFound) onLocationFound(e.latlng);
+      setPosition(currentLocation);
+      if (onLocationFound) onLocationFound(currentLocation);
 
       if (flyTo) {
-        map.flyTo(e.latlng, map.getZoom());
+        map.flyTo(currentLocation, map.getZoom());
       }
     });
   }, [flyTo, map, onLocationFound]);

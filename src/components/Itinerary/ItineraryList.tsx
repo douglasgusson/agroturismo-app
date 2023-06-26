@@ -134,11 +134,10 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({
         </Droppable>
       </DragDropContext>
 
-      <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-slate-50" />
-      <div className="flex flex-col items-center justify-center py-6">
+      <div className="flex items-center justify-center py-6">
         <button
           onClick={onOptimize}
-          className="mx-auto inline-flex items-center space-x-2 rounded-full border border-transparent bg-emerald-600 px-6 py-4 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+          className="inline-flex items-center space-x-2 rounded-full border border-transparent bg-emerald-600 px-6 py-4 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
         >
           <ListOrdered className="h-6 w-6" />
           <span>Buscar roteiro otimizado ({locals.length} locais)</span>
