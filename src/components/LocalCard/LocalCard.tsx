@@ -14,7 +14,7 @@ export const LocalCard: React.FC<LocalCardProps> = ({ local, ...props }) => {
           src={
             local.images.length > 0
               ? local.images[0].image.url
-              : `https://api.lorem.space/image/house?w=400&h=400&hash=${Math.random()}`
+              : `/img/placeholder.svg`
           }
           alt={local.images[0]?.image.alt_text || local.name}
           width={local.images[0]?.image.width || 400}

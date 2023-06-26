@@ -8,7 +8,7 @@ const withPWA = require("next-pwa")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["api.lorem.space", "res.cloudinary.com"],
+    domains: ["res.cloudinary.com"],
   },
 };
 
